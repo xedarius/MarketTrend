@@ -31,6 +31,24 @@ public class Matrix
         return nm;
     }
 
+    public static Matrix Values(int numCols,int numRows)
+    {
+        Matrix nm = new Matrix(numCols,numRows);
+
+        double val = 1;
+
+        for(int i = 0; i < numRows; ++i)
+        {
+            for( int j = 0; j < numCols; ++j )
+            {
+                nm.m[i][j] = val;
+                val+=1.0;
+            }
+        }
+
+        return nm;
+    }
+
     public double get(int row,int col)
     {
         return m[row][col];
@@ -60,6 +78,21 @@ public class Matrix
         for( int i = 0; i < numCols; ++i )
         {
             nm.set(i,0,m[i][col]);
+        }
+
+        return nm;
+    }
+
+    public Matrix transpose()
+    {
+        Matrix nm = new Matrix(numRows,numCols);
+
+        for( int r = 0; r < numRows; ++r )
+        {
+            for( int c = 0; c < numCols; ++c)
+            {
+                nm.m[c][r] = m[r][c];
+            }
         }
 
         return nm;

@@ -12,10 +12,16 @@ public class MatrixTest
     @Test
     public void testIdentity()
     {
-        Matrix m = Matrix.Identity(2,2);
+        Matrix m = Matrix.Values(3,2);
 
-        Matrix nm = m.row(1);
-        Matrix nc = m.col(0);
+//        Matrix nm = m.row(1);
+//        Matrix nc = m.col(0);
+
+        Matrix tr = m.transpose();
+
+        Matrix or = tr.transpose();
+
+
     }
 
 }

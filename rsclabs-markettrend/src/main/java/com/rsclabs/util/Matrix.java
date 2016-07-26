@@ -1,5 +1,14 @@
 package com.rsclabs.util;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
+
 /**
  * Created by rich on 25/07/2016.
  *
@@ -17,6 +26,23 @@ public class Matrix
         this.numCols = cols;
         this.numRows = rows;
         m = new double[this.numRows][this.numCols];
+    }
+
+    public Matrix(double [][]m)
+    {
+        this.m = m;
+        this.numCols = m[0].length;
+        this.numRows = m.length;
+    }
+
+    public int getNumCols()
+    {
+        return numCols;
+    }
+
+    public int getNumRows()
+    {
+        return numRows;
     }
 
     public static Matrix Identity(int size)
@@ -96,6 +122,33 @@ public class Matrix
         return nm;
     }
 
+    public Matrix multiply(Matrix right)
+    {
+        if( getNumCols() != right.getNumRows() )
+        {
+            throw new RuntimeException("Matrix is the wrong shape");
+        }
+
+        int aColCount = getNumCols();
+        int aRowCount = getNumRows();
+        int bColCount = right.getNumCols();
+
+        Matrix nm = new Matrix(aRowCount,bColCount);
+
+        for( int i = 0 ; i < aRowCount; ++i )
+        {
+            for( int j = 0; j < bColCount; ++j )
+            {
+                for( int k = 0; k < aColCount; ++k )
+                {
+                    nm.m[i][j] += m[i][k] * right.m[k][j];
+                }
+            }
+        }
+
+        return nm;
+    }
+
     public Matrix transpose()
     {
         Matrix nm = new Matrix(numRows,numCols);
@@ -129,6 +182,36 @@ public class Matrix
         }
 
         return out;
+    }
+
+    public static Matrix load(String fileName) throws IOException
+    {
+
+        BufferedReader br = new BufferedReader(new FileReader(fileName));
+
+        List<String> mlist = new ArrayList();
+
+        String line;
+        while ((line = br.readLine()) != null)
+        {
+            mlist.add(line);
+        }
+
+        int numRows = mlist.size();
+        int numCols = mlist.get(0).split(",").length;
+
+        double data[][] = new double[numRows][numCols];
+
+        for( int i = 0; i < mlist.size(); ++i )
+        {
+            String colData[] = mlist.get(i).split(",");
+            for( int j = 0; j < colData.length; ++j )
+            {
+                data[i][j] = Double.parseDouble(colData[j]);
+            }
+        }
+
+        return new Matrix(data);
     }
 
 }

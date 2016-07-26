@@ -2,6 +2,8 @@ package com.rsclabs.util;
 
 import org.junit.Test;
 
+import java.io.IOException;
+
 import static org.junit.Assert.*;
 
 /**
@@ -30,6 +32,37 @@ public class MatrixTest
 
 
         Matrix or = tr.transpose();
+
+        double data1[][] = {{1,2,3},{4,5,6}};
+        Matrix a = new Matrix(data1);
+
+        double data2[][] = {{1,2,3},{9,8,7}};
+        Matrix b = new Matrix(data1);
+
+        Matrix c = a.multiply(b);
+
+
+    }
+
+    @Test
+    public void testMultiply()
+    {
+        double data1[][] = {{1,2,3},{4,5,6}};
+        Matrix a = new Matrix(data1);
+
+        double data2[][] = {{9},{8},{7}};
+        Matrix b = new Matrix(data2);
+
+        Matrix c = a.multiply(b);
+
+    }
+
+
+    @Test
+    public void testLoad() throws IOException
+    {
+        Matrix a = Matrix.load("ex1data1.txt");
+
 
 
     }

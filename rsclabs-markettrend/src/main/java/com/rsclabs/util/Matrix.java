@@ -12,18 +12,18 @@ public class Matrix
     private final int numCols;
     private final int numRows;
 
-    public Matrix(int cols,int rows)
+    public Matrix(int rows,int cols)
     {
         this.numCols = cols;
         this.numRows = rows;
         m = new double[this.numRows][this.numCols];
     }
 
-    public static Matrix Identity(int numCols,int numRows)
+    public static Matrix Identity(int size)
     {
-        Matrix nm = new Matrix(numCols,numRows);
+        Matrix nm = new Matrix(size,size);
 
-        for(int i = 0; i < numRows; ++i)
+        for(int i = 0; i < size; ++i)
         {
             nm.m[i][i]=1.0;
         }
@@ -31,17 +31,17 @@ public class Matrix
         return nm;
     }
 
-    public static Matrix Values(int numCols,int numRows)
+    public static Matrix Values(int numRows,int numCols)
     {
-        Matrix nm = new Matrix(numCols,numRows);
+        Matrix nm = new Matrix(numRows,numCols);
 
         double val = 1;
 
-        for(int i = 0; i < numRows; ++i)
+        for(int y = 0; y < numRows; ++y)
         {
-            for( int j = 0; j < numCols; ++j )
+            for( int x = 0; x < numCols; ++x )
             {
-                nm.m[i][j] = val;
+                nm.m[y][x] = val;
                 val+=1.0;
             }
         }
@@ -61,11 +61,11 @@ public class Matrix
 
     public Matrix row(int row)
     {
-        Matrix nm = new Matrix(numRows,1);
+        Matrix nm = new Matrix(1, numCols);
 
-        for( int i = 0; i < numRows; ++i )
+        for( int i = 0; i < numCols; ++i )
         {
-            nm.set(0,i,m[row][i]);
+            nm.m[0][i] = m[row][i];
         }
 
         return nm;
@@ -73,13 +73,26 @@ public class Matrix
 
     public Matrix col(int col)
     {
-        Matrix nm = new Matrix(1,numCols);
+        Matrix nm = new Matrix(numRows,1);
 
-        for( int i = 0; i < numCols; ++i )
+        for( int i = 0; i < numRows; ++i )
         {
-            nm.set(i,0,m[i][col]);
+            nm.m[i][0]=m[i][col];
         }
 
+        return nm;
+    }
+
+    public Matrix subMatrix(int sx,int sy, int w, int h)
+    {
+        Matrix nm = new Matrix(w,h);
+        for( int y = 0; y < h; ++y )
+        {
+            for( int x = 0; x < w; ++x)
+            {
+                nm.m[y][x] = m[sy+y][sx+x];
+            }
+        }
         return nm;
     }
 
@@ -96,6 +109,26 @@ public class Matrix
         }
 
         return nm;
+    }
+
+
+    @Override
+    public String toString()
+    {
+        String out = "";
+
+        for( int y = 0; y < numRows ; ++y )
+        {
+            String delim = "";
+            for( int x = 0; x < numCols; ++x )
+            {
+                out += delim + String.format("%2.3f",m[y][x]);
+                delim = ", ";
+            }
+            out += System.lineSeparator();
+        }
+
+        return out;
     }
 
 }

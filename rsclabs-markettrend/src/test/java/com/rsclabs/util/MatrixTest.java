@@ -14,10 +14,20 @@ public class MatrixTest
     {
         Matrix m = Matrix.Values(3,2);
 
-//        Matrix nm = m.row(1);
-//        Matrix nc = m.col(0);
+        System.out.print(m);
+
+        Matrix nm = m.row(1);
+
+        System.out.print(nm);
+        Matrix nc = m.col(0);
+        System.out.print(nc);
+
+        Matrix sub = m.subMatrix(0,1,2,2);
+        System.out.print(sub);
 
         Matrix tr = m.transpose();
+
+
 
         Matrix or = tr.transpose();
 
